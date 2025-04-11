@@ -63,9 +63,16 @@ function readAllValuesFromIndexedDB(db: IDBDatabase, tableName: string) {
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(tableName, "readonly");
       const store = transaction.objectStore(tableName);
-      const request = store.getAll();
+      const result: unknown[] = [];
+      const request = store.openCursor(null, "prev");
+
       request.onsuccess = () => {
-        resolve(request.result);
+        if (request.result) {
+          result.push(request.result.value);
+          request.result.continue();
+        } else {
+          resolve(result);
+        }
       };
       transaction.oncomplete = () => {
         db.close();

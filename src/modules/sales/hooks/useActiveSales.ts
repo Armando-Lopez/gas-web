@@ -5,5 +5,9 @@ export const useActiveSales = () => {
   const { data, error, isLoading, mutate } = useSWR("active-sales", () =>
     getActiveSales()
   );
+  if (error) {
+    console.error(error);
+  }
+
   return { data, error, isLoading, mutate };
 };
