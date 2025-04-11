@@ -9,11 +9,7 @@ export const formatCurrency = (value: number | string) => {
 
 export const formatDate = (
   date: string,
-  options: Intl.DateTimeFormatOptions = {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }
+  options?: Intl.DateTimeFormatOptions
 ) => {
   const isValidDate = new Date(date).toString() !== "Invalid Date";
   if (!isValidDate) return date;
