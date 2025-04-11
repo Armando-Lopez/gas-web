@@ -51,7 +51,7 @@ export const UpdateSale = ({
     form.reset();
     onSuccess?.();
   }
-  
+
   return (
     <Dialog {...props}>
       <DialogContent bottom>
@@ -95,7 +95,11 @@ export const UpdateSale = ({
                     Fecha de venta
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="dd/mm/aaaa" {...field} />
+                    <Input
+                      type="date"
+                      {...field}
+                      onClick={(e) => e.target?.showPicker?.()}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -109,7 +113,11 @@ export const UpdateSale = ({
                     Fecha de cobro
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="dd/mm/aaaa" {...field} />
+                    <Input
+                      type="date"
+                      {...field}
+                      onClick={(e) => e.target?.showPicker?.()}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

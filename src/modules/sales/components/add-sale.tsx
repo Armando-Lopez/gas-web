@@ -43,14 +43,20 @@ export const AddSale = () => {
   async function onSubmit(data: AddSaleData) {
     await addSale(data);
     mutate();
-    form.reset();
-    setOpen(false);
+    handleClose(false);
+  }
+
+  function handleClose(value: boolean) {
+    setOpen(value);
+    if (!value) { 
+      form.reset();
+    }
   }
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogTrigger asChild>
-        <Button className="size-10 font-bold rounded-full fixed bottom-13 right-4">
-          <UserPlus />
+        <Button className="size-12 font-bold rounded-full fixed bottom-13 right-4">
+          <UserPlus size={30} />
         </Button>
       </DialogTrigger>
       <DialogContent bottom>
@@ -94,7 +100,11 @@ export const AddSale = () => {
                     Fecha de venta
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="dd/mm/aaaa" {...field} />
+                    <Input
+                      type="date"
+                      {...field}
+                      onClick={(e) => e.target?.showPicker?.()}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,7 +118,11 @@ export const AddSale = () => {
                     Fecha de cobro
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="dd/mm/aaaa" {...field} />
+                    <Input
+                      type="date"
+                      {...field}
+                      onClick={(e) => e.target?.showPicker?.()}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

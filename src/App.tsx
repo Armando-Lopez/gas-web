@@ -4,7 +4,7 @@ import {
   Tabs,
   TabsList,
   TabsContent,
-  TabsTrigger,
+  // TabsTrigger,
 } from "@/shared/components/ui/tabs.tsx";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
           </TabsContent>
         </div>
         <TabsList className="flex justify-between w-full sticky bottom-0 py-5 bg-white border-t rounded-none">
-          <TabsTrigger value="active-sales">Ventas</TabsTrigger>
+          {/* <TabsTrigger value="active-sales">Ventas</TabsTrigger> */}
         </TabsList>
       </Tabs>
       <PWABadge />

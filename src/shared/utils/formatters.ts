@@ -6,3 +6,16 @@ export const formatCurrency = (value: number | string) => {
   });
   return formatter.format(Number(value));
 };
+
+export const formatDate = (
+  date: string,
+  options: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }
+) => {
+  const isValidDate = new Date(date).toString() !== "Invalid Date";
+  if (!isValidDate) return date;
+  return new Intl.DateTimeFormat("es-CO", options).format(new Date(date));
+};

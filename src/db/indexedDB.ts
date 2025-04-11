@@ -1,9 +1,9 @@
 type IndexedDB = {
-  db: IDBDatabase;
   addData: (data: unknown) => Promise<unknown>;
   readData: () => Promise<unknown>;
   updateData: (id: number, data: unknown) => Promise<unknown>;
   deleteData: (id: number) => Promise<unknown>;
+  clearTable: () => Promise<unknown>;
 };
 export const openIndexedDB = ({
   dbName = GAS_DB_NAME,
@@ -31,11 +31,11 @@ export const openIndexedDB = ({
 
     request.onsuccess = () => {
       resolve({
-        db: request.result,
         addData: addValueToIndexedDB(request.result, tableName),
         readData: readAllValuesFromIndexedDB(request.result, tableName),
         updateData: updateValueToIndexedDB(request.result, tableName),
         deleteData: deleteValueFromIndexedDB(request.result, tableName),
+        clearTable: clearTableFromIndexedDB(request.result, tableName),
       });
     };
 
@@ -47,9 +47,9 @@ export const openIndexedDB = ({
 
 function readAllValuesFromIndexedDB(db: IDBDatabase, tableName: string) {
   return async () => {
-    const transaction = db.transaction(tableName, "readonly");
-    const store = transaction.objectStore(tableName);
     return new Promise((resolve, reject) => {
+      const transaction = db.transaction(tableName, "readonly");
+      const store = transaction.objectStore(tableName);
       const request = store.getAll();
       request.onsuccess = () => {
         resolve(request.result);
@@ -70,9 +70,9 @@ function readAllValuesFromIndexedDB(db: IDBDatabase, tableName: string) {
 
 function addValueToIndexedDB(db: IDBDatabase, tableName: string) {
   return async (data: unknown) => {
-    const transaction = db.transaction(tableName, "readwrite");
-    const store = transaction.objectStore(tableName);
     return new Promise((resolve, reject) => {
+      const transaction = db.transaction(tableName, "readwrite");
+      const store = transaction.objectStore(tableName);
       const request = store.add(data);
       request.onsuccess = () => {
         db.close();
@@ -94,9 +94,9 @@ function addValueToIndexedDB(db: IDBDatabase, tableName: string) {
 
 function updateValueToIndexedDB(db: IDBDatabase, tableName: string) {
   return async (id: number, data: unknown) => {
-    const transaction = db.transaction(tableName, "readwrite");
-    const store = transaction.objectStore(tableName);
     return new Promise((resolve, reject) => {
+      const transaction = db.transaction(tableName, "readwrite");
+      const store = transaction.objectStore(tableName);
       const request = store.put({ id, ...(data as object) });
       request.onsuccess = () => {
         db.close();
@@ -118,9 +118,9 @@ function updateValueToIndexedDB(db: IDBDatabase, tableName: string) {
 
 function deleteValueFromIndexedDB(db: IDBDatabase, tableName: string) {
   return async (id: number) => {
-    const transaction = db.transaction(tableName, "readwrite");
-    const store = transaction.objectStore(tableName);
     return new Promise((resolve, reject) => {
+      const transaction = db.transaction(tableName, "readwrite");
+      const store = transaction.objectStore(tableName);
       const request = store.delete(id);
       request.onsuccess = () => {
         db.close();
@@ -134,6 +134,27 @@ function deleteValueFromIndexedDB(db: IDBDatabase, tableName: string) {
           new Error(
             "Failed to delete data from IndexedDB: " + request.error?.message
           )
+        );
+      };
+    });
+  };
+}
+
+function clearTableFromIndexedDB(db: IDBDatabase, tableName: string) {
+  return async () => {
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction(tableName, "readwrite");
+      const store = transaction.objectStore(tableName);
+      const request = store.clear();
+      request.onsuccess = () => {
+        resolve(request.result);
+      };
+      transaction.oncomplete = () => {
+        db.close();
+      };
+      request.onerror = () => {
+        reject(
+          new Error("Failed to clear IndexedDB: " + request.error?.message)
         );
       };
     });
