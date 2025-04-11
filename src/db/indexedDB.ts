@@ -5,6 +5,19 @@ type IndexedDB = {
   deleteData: (id: number) => Promise<unknown>;
   clearTable: () => Promise<unknown>;
 };
+/**
+ * Opens a connection to IndexedDB and returns a promise that resolves with an object of methods to interact with the database.
+ *
+ * @param {Object} [options] - Options to customize the IndexedDB connection.
+ * @param {string} [options.dbName=GAS_DB_NAME] - The name of the IndexedDB database.
+ * @param {number} [options.version=GAS_DB_VERSION] - The version of the IndexedDB database.
+ * @param {string} options.tableName - The name of the IndexedDB table to interact with.
+ * @param {Object} [options.options] - Options to customize the IndexedDB table.
+ * @param {string} [options.options.keyPath="id"] - The name of the column to use as the primary key.
+ * @param {boolean} [options.options.autoIncrement=true] - Whether the primary key should be auto-incremented.
+ *
+ * @returns {Promise<IndexedDB>} - A promise that resolves with an object of methods to interact with the database.
+ */
 export const openIndexedDB = ({
   dbName = GAS_DB_NAME,
   version = GAS_DB_VERSION,

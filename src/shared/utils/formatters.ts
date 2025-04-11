@@ -10,7 +10,7 @@ export const formatCurrency = (value: number | string) => {
 export const formatDate = (
   date: string,
   options: Intl.DateTimeFormatOptions = {
-    day: "2-digit",
+    day: "numeric",
     month: "long",
     year: "numeric",
   }
