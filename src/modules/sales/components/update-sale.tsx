@@ -98,7 +98,7 @@ export const UpdateSale = ({
                     <Input
                       type="date"
                       {...field}
-                      onClick={(e) => e.target?.showPicker?.()}
+                      onFocus={(e) => e.target?.showPicker?.()}
                     />
                   </FormControl>
                   <FormMessage />
@@ -116,7 +116,7 @@ export const UpdateSale = ({
                     <Input
                       type="date"
                       {...field}
-                      onClick={(e) => e.target?.showPicker?.()}
+                      onFocus={(e) => e.target?.showPicker?.()}
                     />
                   </FormControl>
                   <FormMessage />
